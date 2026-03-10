@@ -11,3 +11,20 @@ except FileNotFoundError:
 
 L = int(input())
 pattern = input()
+table = [0] * L
+
+def kmp():
+    j = 0
+    for i in range(1, L):
+        while j > 0 and pattern[i] != pattern[j]:   
+            j = table[j - 1]
+        if pattern[i] == pattern[j]:
+            j += 1
+            table[i] = j
+
+kmp()
+
+if table[L - 1] == 0:
+    print(L)
+else:
+    print(L - table[L - 1])
