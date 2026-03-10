@@ -12,84 +12,46 @@ except FileNotFoundError:
 
 N = int(input())
 
-chosen = set()
-list = [set() for _ in range(N)]
+# 각 선에 얼만큼 가중치가 있는지 저장하는 배열
+list_y = [0] * N
+list_x = [0] * N
+list_cross_up = [0] * (N * 2 - 1)
+list_cross_down = [0] * (N * 2 - 1)
+
+adjust = N - 1
 count = 0
 
-def recursion_back(temp):
+def dispos_queen(temp):
     global count
 
     if len(temp) == N:
-        print(f"최종: {temp}")
         count += 1
         return
-
-    compare_set = list[len(temp)]
-    # print(f"{list} - {temp}")
-    # print(f"비교군: {compare_set} - {chosen}")
-    for i in range(N):
-        # print(f"현재 순회 변수-- {i}")
-        if i in compare_set:
-            # print(f"compare_set에 있음: {i}")
+    
+    curr_x = len(temp)
+    for curr_y in range(N):
+        # 공격 가능한지 검증
+        if list_y[curr_y] != 0 or \
+            list_x[curr_x] != 0 or \
+            list_cross_up[curr_x + curr_y] != 0 or \
+            list_cross_down[adjust + (curr_y - curr_x)] != 0:
             continue
-        if i in chosen:
-            # print(f"chosen에 있음: {i}")
-            continue
+        
+        # 공격 채워진 선 추가
+        list_y[curr_y] += 1
+        list_x[curr_x] += 1
+        list_cross_up[curr_x + curr_y] += 1
+        list_cross_down[adjust + (curr_y - curr_x)] += 1
 
-        setting_set(i, temp)
-        temp.append(i)
-        # print(f"넣는 변수: {i}")
-        # print(f"전반적 지도: {list}")
-        # print(f"-----------")
-        recursion_back(temp)
-        removing_set(i, temp)
+        temp.append(curr_y)
+        dispos_queen(temp)
         temp.pop()
 
+        # 공격 채워진 선 제거
+        list_y[curr_y] -= 1
+        list_x[curr_x] -= 1
+        list_cross_up[curr_x + curr_y] -= 1
+        list_cross_down[adjust + (curr_y - curr_x)] -= 1
 
-def setting_set(i, temp):
-    x_pos = len(temp)
-    # print(f"x_pos {x_pos}")
-    chosen.add(i)
-    #아래 대각선
-    for o in range(i, N): 
-        y_pos = x_pos + (o - i)  
-        # print(f"y_pos {y_pos}") 
-        if o >= N or o < 0 or y_pos >= N or y_pos < 0:
-            continue
-        list[y_pos].add(o)
-
-    # 위 대각선
-    for o in range(i, -1, -1): # 2 1 0 순
-        # print(f"o: {o} o - i: {o - i}")
-        y_pos = x_pos - (o - i)   
-        # print(f"y_pos {y_pos}")
-        if o >= N or o < 0 or y_pos >= N or y_pos < 0:
-            continue
-        list[y_pos].add(o)    
-
-def removing_set(i, temp):
-    x_pos = len(temp) - 1
-    # print(f"x_pos {x_pos}")
-    chosen.discard(i)
-    for o in range(i, N):   # 반대로 지우면 됨
-        y_pos = x_pos + (o - i)   
-        if o >= N or o < 0 or y_pos >= N or y_pos < 0:
-            continue
-        # print(o)
-        list[y_pos].discard(o)
-
-    #위 대각선
-    for o in range(i, -1, -1): # 2 1 0 순
-        # print(f"o: {o} o - i: {o - i}")
-        y_pos = x_pos - (o - i)   
-        # print(f"y_pos {y_pos}")
-        if o >= N or o < 0 or y_pos >= N or y_pos < 0:
-            continue
-        list[y_pos].discard(o)  
-
-recursion_back([])
+dispos_queen([])
 print(count)
-
-# setting_set(2, [1])
-# removing_set(2, [1, 1])
-# print(f"들어감: {list}")
