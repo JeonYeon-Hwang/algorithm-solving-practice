@@ -10,12 +10,10 @@ except FileNotFoundError:
     pass
 
 floors = int(input())
-turn = 2 ** floors - 1
 
-print(turn)
+print(2 ** floors - 1)
 
 def recursion_move(floors, start, end):
-
     if floors == 1:
         print(f"{start} {end}")
         return

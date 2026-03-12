@@ -9,34 +9,25 @@ try:
 except FileNotFoundError:
     pass
 
-c = int(input())
+rows = int(input())
 
-while (True):
-  sum = 0
-  cnt = 0
-  # 문자열 입력 받기
-  str = input()
+for _ in range(rows):
+    while True:
+        try:
+            nums = list(map(int, input().split()))
+            n = len(nums) - 1
+            sum = 0          
+            for i in range(1, n+1):
+                sum += nums[i]
+            
+            avg = sum/n
+            above_avg_num = 0
+            for i in range(1, n+1):
+                if nums[i] > avg:
+                    above_avg_num +=1
 
-  # 학생들의 점수와 학생 수 분리
-  strArr = str.split();
-  studentNumber = int(strArr[0])
-  del strArr[0]
+            answer = above_avg_num/n*100
+            print(f"{answer:.3f}%")     
 
-  # 학생들의 점수 평균 구하기
-  for score in strArr:
-    sum += int(score)
-    average = sum / studentNumber
-
-  # 평균 이상인 학생들의 수 저장
-  for i in range(studentNumber):
-    if int(strArr[i]) > average:
-      cnt += 1 
-
-  # 평균 이상인 학생들의 비율을 소수점 셋째 자리까지 출력
-  print(f"{(cnt / studentNumber) * 100:.3f}%")
-
-
-
-  c -= 1
-  if (c == 0):
-    break
+        except EOFError:
+            break
