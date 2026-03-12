@@ -7,7 +7,6 @@ class Solution:
     def candy(self, ratings: List[int]) -> int:
         candies_go_right = [1] * len(ratings)
         candies_go_left = [1] * len(ratings)
-
         sums = 0
 
         if len(ratings) <= 1:
