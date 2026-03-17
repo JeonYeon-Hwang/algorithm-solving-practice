@@ -11,18 +11,37 @@ ob = sys.stdin.readline
 N = int(input().rstrip())
 
 areas = 1
-s = set()
+stack = []
 circle_infos = []
 
 for _ in range(N):
     input = sys.stdin.readline
-    lst = list(map(int, input().rstrip().split(" ")))
-    x_left = lst[0] - lst[1]
-    x_right = lst[0] + lst[1]
-    diameters = abs(x_right - x_left)
-    circle_infos.append([diameters, x_left, x_right])
+    x, r = list(map(int, input().rstrip().split(" ")))
+    circle_infos.append([x - r, 'left', 2 * r])
+    circle_infos.append([x + r, 'right', 2 * r])
+
+circle_infos.sort(key=lambda x: (
+    x[0],
+    0 if x[1] == 'right' else 1,
+    -x[2] if x[1] == 'left' else x[2]
+    ))
+
+for i in range(0, len(circle_infos)):  
+    # 새롭게 꺼낸 점
+    curr_dot, curr_type, curr_width  = circle_infos[i]
+
+    if curr_type == 'left':
+        stack.append([curr_dot, 0])
+    elif curr_type == 'right':
+        start_dot, length_sum = stack.pop()
+        curr_length = curr_dot - start_dot
+
+        areas += 1
+        if curr_length == length_sum:
+            areas += 1
+
+        if stack:
+            stack[-1][1] += curr_length
 
 
-circle_infos.sort(key=lambda x: x[0], reverse=True)
-print(circle_infos)
-# for i in range(len(circle_infos)):
+print(areas)
