@@ -65,7 +65,7 @@ def quick_sort_helper(arr, low, high):
     ## 피벗 오른쪽 부분 재귀 정렬
     pl = low
     pr = high
-
+    
     pivot_idx = (low + high) // 2
     
     pivot_val = arr[pivot_idx]
