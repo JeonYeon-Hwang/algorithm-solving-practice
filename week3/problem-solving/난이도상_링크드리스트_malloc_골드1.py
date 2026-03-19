@@ -9,74 +9,68 @@ except FileNotFoundError:
 
 ob = sys.stdin.readline
 N = int(input().rstrip())
-dictionary = {}
+
+memory_size = 100001
+dicts = {}
 
 class Node:
-    def __init__(self, max_free, start_address):
-        self.max_free = max_free
-        self.start_address = start_address
+    def __init__(self, start, size):
+        self.start = start
+        self.size = size
+        self.next = None
+        self.prev = None
 
-        self.left = None
-        self.right = None
-        self.parent = None
-        
+root_node = Node(1, 100000)
 
-root_node = Node(100000, 1)
+def insert_memory(memory_name, insert_size):
+    curr_start = root_node.start
+    curr_size = root_node.size
+
+    if curr_size >= insert_size:
+        left_amount = curr_size - insert_size 
+
+        if left_amount >= 0:
+            new_start = curr_start + insert_size
+            root_node.start = new_start
+            root_node.size = left_amount 
+            dicts[memory_name] = f'{new_start - insert_size}:{insert_size}'
+
+
+def free_memory(memory_name):
+    global root_node
+
+    text = dicts.pop(memory_name)
+    infos = text.split(':')
+    new_node = Node(int(infos[0]), int(infos[1]))
     
-
+    temp_node = root_node
+    root_node = new_node 
     
+    if root_node.size + root_node.start == temp_node.start:
+        root_node.size += temp_node.size
+    else: 
+        root_node.next = temp_node
 
 
-def insert_data(data_name, data_size, node): 
-    if node.max_free >= data_size:
-        # 딕셔너리에 기록을 한다
-        dictionary[data_name] = f"{node.start_address}:{data_size}"
 
-        node.max_free -= data_size
-        node.start_address += data_size
-        return
+
+def print_node():
+    node = root_node
+    print(f'{node.start}:{node.size}')
     
-    if node.left is None:
-        node.left = Node(data_size, node.start_address)
-        node.left.parent = node
-    if node.right is None:
-        node.right = Node(data_size, node.start_address)
-        node.right.parent = node
-    
-    result = -1
-
-    if node.left.max_free >= data_size:
-        result = insert_data(data_name, data_size, node.left)
-    elif node.right.max_free >= data_size:
-        result = insert_data(data_name, data_size, node.right)
-        
-    node.max_free = max(node.left.max_free, node.right.max_free)
-    return result
+    while node.next is not None:
+        node = node.next
+        print(f'{node.start}:{node.size}')
 
 
-def free_data(data_name, node):
-    lst = list(dictionary[data_name].split(':'))
-    start_address = int(lst[0])
-    node = search_data(start_address, node)
+insert_memory('가가', 100)
+insert_memory('나나', 100)
 
+free_memory('가가')
+free_memory('나나')
 
-
-def search_data(pivot_address, node):
-    print(f"{node.start_address} {pivot_address}")
-    # if node.start_address > pivot_address:
-    #     search_data(pivot_address, node.left)
-    # elif node.start_address < pivot_address:
-    #     search_data(pivot_address, node.right)
-    # elif node.start_address == pivot_address:
-    #     return node
-
-
-insert_data('닝닝', 100, root_node)
-insert_data('갱갱', 100, root_node)
-free_data('갱갱', root_node)
-
-print(f"{root_node.max_free} {root_node.start_address}")
-print(dictionary)
+print_node()
+print(dicts)
 
 for _ in range(N):
     input = sys.stdin.readline
