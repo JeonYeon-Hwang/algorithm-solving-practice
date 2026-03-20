@@ -1,3 +1,4 @@
+# 강의자: 이동석 코치
 # recursion에 대한 설명
 # 프로그래밍의 요소 => primitive expressions, means of combination, means of abstraction(추상화.. 중요!) => 요 세가지 만으로 복잡한 일을 수행할 수 있음
 # 추상화란... 일종의 계층화 된 곳에서 단계의 지점인가?
