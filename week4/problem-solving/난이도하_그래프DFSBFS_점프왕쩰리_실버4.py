@@ -20,13 +20,11 @@ for _ in range(N):
     nums = input().rstrip().split(' ') 
     temp = list(map(int, nums))
     area.append(temp)
-    # visited.append([False for _ in range(len(temp))])
 
 pos = [0, 0]
 dir = [[1, 0], [0, 1]]
 can_arrive = False
 q.append(pos)
-# visited[0][0] = True
 
 
 while q:
@@ -48,7 +46,6 @@ while q:
             continue
 
         q.append([new_y, new_x])
-        # visited[new_y][new_x] = True
 
 
 if can_arrive is False: print('Hing')
