@@ -44,15 +44,29 @@ def bfs(graph, start):
         방문 순서 리스트
     """
     visited = []
+    visited_set = set()
     
     # TODO: 큐 생성 및 시작 정점 추가
     ## 방문한 정점 집합
+    q = deque()
+    q.append(start)
+    visited_set.add(start)
     pass
 
     # TODO: 큐가 빌 때까지 반복
     ## 큐에서 정점 꺼내기
     ## 인접한 정점들 확인
     ## 방문하지 않은 정점이면 큐에 추가
+    while q:
+        node = q.popleft()
+        visited.append(node)
+
+        for neighbor in graph[node]:
+            if neighbor not in visited_set:
+                visited_set.add(neighbor)            
+                q.append(neighbor)
+    
+
     pass
     
     return visited
