@@ -1,7 +1,6 @@
 # 그래프, DFS, BFS - 바이러스 (백준 실버3)
 # 문제 링크: https://www.acmicpc.net/problem/2606
 import sys
-from collections import deque
 
 try:
     sys.stdin = open('난이도하_그래프DFSBFS_바이러스_실버3.txt', 'r')
