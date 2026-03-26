@@ -25,7 +25,6 @@ class Solution:
                 sliced = word[:i] + '_' + word[i + 1:]
                 edges_infos.setdefault(sliced, []).append(word)
 
-                # edge 가 생기므로 graph에 저장한다
                 edge_info = edges_infos[sliced]
                 edge_len = len(edge_info)
                 adding = edge_info[edge_len - 1]
