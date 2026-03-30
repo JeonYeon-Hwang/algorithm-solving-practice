@@ -28,7 +28,7 @@ if path_bool[2] is True:
 
 for i in range(2, N + 1):
     for range, steps in path_dp[i].items():
-        # print(f'키 {range}')
+
         shrink = range - 1
         parallel = range
         expend = range + 1
