@@ -28,7 +28,7 @@ for _ in range(N):
     lst.append((start, end))
 
 lst.sort(key=lambda x: (x[1], x[0]))
-# print(lst)
+
 selected = []
 selected.append(lst[0])
 
