@@ -17,15 +17,18 @@ path_bool = [True] * (N + 1)
 path_dp = [{} for _ in range(N + 1)]
 
 
+# 방문 불가한 돌 지점 넣기
 for _ in range(M):
     cant_stone = int(input())
     path_bool[cant_stone] = False
 
 
+# base case 값 넣기
 if path_bool[2] is True:
     path_dp[2][1] = 1
 
 
+# dp 연산
 for i in range(2, N + 1):
     for range, steps in path_dp[i].items():
 
@@ -50,6 +53,7 @@ for i in range(2, N + 1):
         
 
 
+# 결과값 출력
 if len(path_dp[N]) == 0:
     print(-1)
 else:
